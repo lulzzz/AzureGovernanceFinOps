@@ -29,12 +29,12 @@
 /#>
 
 Param(
-$SubscriptionName = "Free Trial",
+$SubscriptionName = "Trial Subscription",
 $ResourceGroupName = "RGXavier",
 $VaultName = "vaultspr",
 $smtpserver = "smtp.sendgrid.net",
-$from = "chris.hansen@spr.com",
-$to = "charles.chukwudozie@spr.com",
+$from = "john.doe@democonsults.com",
+$to = "charles.wacker@democonsults.com",
 $port = "587"
 )
 
