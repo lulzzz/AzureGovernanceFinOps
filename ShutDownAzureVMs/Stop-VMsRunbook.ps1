@@ -31,7 +31,7 @@
 
 param(
     [parameter(Mandatory = $false)]
-    [string]$SubscriptionName = "Free Trial",
+    [string]$SubscriptionName = "Trial Subscription",
     [parameter(Mandatory = $false)]
     [string]$FilePath,
     [parameter(Mandatory = $false)]
@@ -615,10 +615,10 @@ Select-AzureRmSubscription -SubscriptionName $SubscriptionName
 
 #region create email creds
 $Smtpserver = "smtp.sendgrid.net"
-$From = "chris.hansen@spr.com"
-$To = "charles.chukwudozie@spr.com"
+$From = "jane.doe@democonsults.com"
+$To = "john.hacker@democonsults.com"
 $Port = "587"
-$sendgridusername = "azure_eb0fc2179dd8f386d4f4e1f60dc2aff1@azure.com"
+$sendgridusername = "azure_eb0fc2179dd8f386d4f4e1f60dc2bee2@azure.com"
 $sendgridPassword = "Fq3YnhTH"
 $emailpassword = ConvertTo-SecureString -String $sendgridPassword -AsPlainText -Force
 $emailcred = New-Object System.Management.Automation.PSCredential($sendgridusername, $emailpassword)
