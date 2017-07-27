@@ -21,13 +21,13 @@
 /#>
 
 param(
-            [parameter(Mandatory=$false)]
-            [string]$resourceGroupName = "Xavierrg",
-            $subscriptionID = "4d8974d9-2d78-4838-ad15-92c5e4f65f65",
-            $TenantId = "87ff4425-8172-46ec-b396-e5c3d3405e9d",
-            $ServiceUri = "526fa2c4-7476-4445-aa7e-ecca0bd67f11",
-            $ServicePassword = "ZcEGbDgLgp+yrbW3NdDfEWvkcMaDn4jNEC0E7MYVItY="
-        )
+    [parameter(Mandatory = $false)]
+    [string]$resourceGroupName = "RGXavier",
+    $subscriptionID = "4d8974d9-2d78-4838-ad15-92c5e4f65e54",
+    $TenantId = "87ff4425-8172-46ec-b396-e5c3d3405f8e",
+    $ServiceUri = "526fa2c4-7476-4445-aa7e-ecca0bd67f22",
+    $ServicePassword = "ZcEGbDgLgp+yrbW3NdDfEWvkcMaDn4jNEC0E7MYVItY="
+)
 
 #region Azure PowerShell login
 Write-Host "started at" (Get-Date)
@@ -42,50 +42,51 @@ $subscription = Select-AzureRmSubscription -SubscriptionId $subscriptionID
 $tagsCsv = Import-Csv -Path C:\MeterRates\NielsenRemediationTags.csv
 $goodTags = ($tagsCsv | Get-Member -MemberType NoteProperty).Name
 $standardTags = @{CreatedBy = "admin@democonsults.net"
-             ServerRole = ""
-             Environment = ""
-             ApplicationName= ""
-             Department = ""
-             CostCenter = ""
-             Description = ""}
-$unTaggedResources = Get-AzureRmResource |?{($_.ResourceGroupName -eq $resourceGroupName) -and ($_.Tags.Count -eq 0)}
-$taggedResources = Get-AzureRmResource | ?{($_.ResourceGroupName -eq $resourceGroupName) -and ($_.Tags.Count -ge 1)}
-          if($unTaggedResources -ne $null){
-          $i = 0         
-          foreach($unTaggedresource in $unTaggedResources){
-          $i++
-          Write-Progress -Activity "Remediating Untagged Resources..." -Status "Progress:" -PercentComplete ($i/$unTaggedresources.count * 100)
-                $discardOutput = Set-AzureRmResource -ResourceId $unTaggedresource.ResourceId -Tag $standardTags -Force                                                             
-            }
-        }
+    ServerRole = ""
+    Environment = ""
+    ApplicationName = ""
+    Department = ""
+    CostCenter = ""
+    Description = ""
+}
+$unTaggedResources = Get-AzureRmResource |? {($_.ResourceGroupName -eq $resourceGroupName) -and ($_.Tags.Count -eq 0)}
+$taggedResources = Get-AzureRmResource | ? {($_.ResourceGroupName -eq $resourceGroupName) -and ($_.Tags.Count -ge 1)}
+if ($unTaggedResources -ne $null) {
+    $i = 0         
+    foreach ($unTaggedresource in $unTaggedResources) {
+        $i++
+        Write-Progress -Activity "Remediating Untagged Resources..." -Status "Progress:" -PercentComplete ($i / $unTaggedresources.count * 100)
+        $discardOutput = Set-AzureRmResource -ResourceId $unTaggedresource.ResourceId -Tag $standardTags -Force                                                             
+    }
+}
             
-          if($taggedResources -ne $null){
-          $i = 0
-          foreach($taggedResource in $taggedResources){
-          $i++
-          Write-Progress -Activity "Remediating Tagged Resources..." -Status "Progress:" -PercentComplete ($i/$taggedResources.count * 100)
-                foreach($goodTag in $goodTags){
-                    if(!($taggedResource.Tags.ContainsKey($goodTag))){ 
-                    $tags=$taggedResource.Tags
-                    $tags.Add($goodTag,$null)
-                    $discardOutput = Set-AzureRmResource -ResourceId $taggedResource.ResourceId -Tag $tags -Force
-                   }
+if ($taggedResources -ne $null) {
+    $i = 0
+    foreach ($taggedResource in $taggedResources) {
+        $i++
+        Write-Progress -Activity "Remediating Tagged Resources..." -Status "Progress:" -PercentComplete ($i / $taggedResources.count * 100)
+        foreach ($goodTag in $goodTags) {
+            if (!($taggedResource.Tags.ContainsKey($goodTag))) { 
+                $tags = $taggedResource.Tags
+                $tags.Add($goodTag, $null)
+                $discardOutput = Set-AzureRmResource -ResourceId $taggedResource.ResourceId -Tag $tags -Force
+            }
 
-                    foreach($badTag in $tagsCsv.$goodTag){
-                        if($taggedResource.Tags.ContainsKey($badTag)) {
+            foreach ($badTag in $tagsCsv.$goodTag) {
+                if ($taggedResource.Tags.ContainsKey($badTag)) {
                     $replacementTagValue = $taggedResource.Tags.$badTag
                     $replacementTag = $goodtag
-                    $btags=$taggedResource.Tags
+                    $btags = $taggedResource.Tags
                     $btags.Remove($badTag)
                     $btags.Remove($goodTag)
-                    $btags.Add($replacementTag,$replacementTagValue)
+                    $btags.Add($replacementTag, $replacementTagValue)
                     $discardOutput = Set-AzureRmResource -ResourceId $taggedResource.ResourceId -Tag $btags -Force
-                   }                        
-                }
+                }                        
             }
-          
-          }
         }
+          
+    }
+}
 
             
             
