@@ -2,7 +2,7 @@
 
 <#
 .SYNOPSIS
-   Function to stop/start multiple VMs simultaneously
+   The Set-AzureRMVmPowerState Function stops/starts multiple VMs concurrently.
 .DESCRIPTION
    This Azure Automation function uses the awesome Invoke-Parallel Powershell Function from Cookie.Monster to automate simultaneous VMs shutdown/start.
    https://github.com/RamblingCookieMonster/Invoke-Parallel 
@@ -19,11 +19,11 @@
 .PARAMETER State
         Power State that determines if VM(s) are to be shutdown or started. Valid values are Stop and Start.
 .EXAMPLE
-        Set-VMPowerState -FilePath "C:\MeterRates\VSProtestvms.csv" -State Stop -SubscriptionName "Trial"
+        Set-AzureRMVmPowerState -FilePath "C:\MeterRates\VSProtestvms.csv" -State Stop -SubscriptionName "Trial"
 
             Runs against a csv file specified with the FilePath parameter
 .EXAMPLE
-        Set-VMPowerState -ResourceGroupName RGXavier -State Stop -SubscriptionName "Trial"
+        Set-AzureRMVmPowerState -ResourceGroupName RGXavier -State Stop -SubscriptionName "Trial"
 
             Runs against a ResourceGroupName specified with the ResourceGroupName parameter
 .FUNCTIONALITY
