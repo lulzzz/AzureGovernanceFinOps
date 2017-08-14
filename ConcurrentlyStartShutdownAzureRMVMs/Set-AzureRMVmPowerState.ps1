@@ -34,11 +34,11 @@
 
 param(
     [parameter(Mandatory = $false)]
-    [string]$SubscriptionName = "Free Trial",
+    [string]$SubscriptionName = "Trial",
     [parameter(Mandatory = $false)]
     [string]$FilePath,
     [parameter(Mandatory = $false)]
-    [string]$ResourceGroupName = "RGManagedDisks",
+    [string]$ResourceGroupName = "RGXavier",
     [parameter(Mandatory = $false)]
     [ValidateSet("Start", "Stop")]
     [ValidateNotNullOrEmpty()]
@@ -78,8 +78,8 @@ Select-AzureRmSubscription -SubscriptionName $SubscriptionName
 
 #region create email creds
 $Smtpserver = "smtp.sendgrid.net"
-$From = "chris.hansen@spr.com"
-$To = "charles.chukwudozie@spr.com"
+$From = "john.doe@democonsults.com"
+$To = "jack.reacher@democonsults.com"
 $VaultName = "vaultspr"
 $SecretName = "SendgridPassword"
 $Port = "587"
