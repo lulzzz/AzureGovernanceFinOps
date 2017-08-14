@@ -80,7 +80,7 @@ Select-AzureRmSubscription -SubscriptionName $SubscriptionName
 $Smtpserver = "smtp.sendgrid.net"
 $From = "john.doe@democonsults.com"
 $To = "jack.reacher@democonsults.com"
-$VaultName = "vaultspr"
+$VaultName = "vaultdemo"
 $SecretName = "SendgridPassword"
 $Port = "587"
 $sendgridusername = "azure_eb0fc2179dd8f386d4f4e1f60dc2aff1@azure.com"
