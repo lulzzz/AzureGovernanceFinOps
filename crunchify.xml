@@ -9,4 +9,9 @@
 		<format>tar</format>
 	</formats>
 	<includeBaseDirectory>false</includeBaseDirectory>
+	<fileSets>
++		<fileSet>
++			<outputDirectory>hive-output</outputDirectory>
++		</fileSet>
++	</fileSets>
 </assembly>
