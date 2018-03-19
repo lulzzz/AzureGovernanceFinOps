@@ -8,7 +8,7 @@
 		<format>zip</format>
 		<format>tar</format>
 	</formats>
-	<includeBaseDirectory>false</includeBaseDirectory>
+	<includeBaseDirectory>true</includeBaseDirectory>
 	<fileSets>
 		<fileSet>
 			<outputDirectory>hive-output</outputDirectory>
